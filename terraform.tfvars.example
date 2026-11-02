@@ -1,0 +1,6 @@
+name_prefix = "demo"
+region = "eu-central-1"
+
+tags = {
+  Owner = "your-name"
+}
