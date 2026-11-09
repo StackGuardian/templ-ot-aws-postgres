@@ -1,0 +1,119 @@
+{
+  "type": "object",
+  "required": [],
+  "properties": {
+    "name_prefix": {
+      "title": "Name prefix",
+      "type": "string",
+      "description": "Prefix for all resource names",
+      "default": "demo",
+      "pattern": "^[a-z][a-z0-9-]{1,15}$"
+    },
+    "region": {
+      "title": "Region",
+      "type": "string",
+      "description": "AWS region",
+      "default": "eu-central-1"
+    },
+    "tags": {
+      "title": "Tags",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Additional tags for all resources",
+      "default": {}
+    },
+    "vpc_cidr": {
+      "title": "VPC cidr",
+      "type": "string",
+      "description": "CIDR block of the VPC",
+      "default": "10.0.0.0/16"
+    },
+    "engine_version": {
+      "title": "Engine version",
+      "type": "string",
+      "description": "PostgreSQL major version",
+      "default": "17"
+    },
+    "instance_class": {
+      "title": "Instance class",
+      "type": "string",
+      "description": "RDS instance class",
+      "default": "db.t4g.micro"
+    },
+    "allocated_storage": {
+      "title": "Allocated storage",
+      "type": "number",
+      "description": "Storage in GiB",
+      "default": 20
+    },
+    "database_name": {
+      "title": "Database name",
+      "type": "string",
+      "description": "Name of the initial database",
+      "default": "app"
+    },
+    "master_username": {
+      "title": "Master username",
+      "type": "string",
+      "description": "Master user name. The password is generated and stored in Secrets Manager.",
+      "default": "dbadmin"
+    },
+    "multi_az": {
+      "title": "Multi az",
+      "type": "boolean",
+      "description": "Run a standby in a second AZ",
+      "default": false
+    },
+    "backup_retention_days": {
+      "title": "Backup retention days",
+      "type": "number",
+      "description": "Days to keep automated backups",
+      "default": 7
+    },
+    "deletion_protection": {
+      "title": "Deletion protection",
+      "type": "boolean",
+      "description": "Protect the instance from deletion. Off by default so the demo can be destroyed.",
+      "default": false
+    },
+    "skip_final_snapshot": {
+      "title": "Skip final snapshot",
+      "type": "boolean",
+      "description": "Skip the final snapshot on destroy",
+      "default": true
+    },
+    "log_retention_days": {
+      "title": "Log retention days",
+      "type": "number",
+      "description": "Retention of database and flow logs in CloudWatch",
+      "default": 90,
+      "enum": [
+        1,
+        3,
+        5,
+        7,
+        14,
+        30,
+        60,
+        90,
+        120,
+        150,
+        180,
+        365,
+        400,
+        545,
+        731,
+        1096,
+        1827,
+        2192,
+        2557,
+        2922,
+        3288,
+        3653
+      ]
+    }
+  },
+  "title": "AWS PostgreSQL Database (RDS)"
+}

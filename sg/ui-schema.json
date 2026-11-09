@@ -1,0 +1,18 @@
+{
+  "ui:order": [
+    "name_prefix",
+    "region",
+    "vpc_cidr",
+    "engine_version",
+    "instance_class",
+    "allocated_storage",
+    "database_name",
+    "master_username",
+    "multi_az",
+    "backup_retention_days",
+    "deletion_protection",
+    "skip_final_snapshot",
+    "log_retention_days",
+    "tags"
+  ]
+}
