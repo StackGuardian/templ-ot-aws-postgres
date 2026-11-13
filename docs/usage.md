@@ -24,18 +24,25 @@ Use it when an application or a demo needs a secure PostgreSQL database.
 |---|---|---|
 | Name prefix | Prefix for all resource names. 2 to 16 lowercase letters, digits or hyphens, starting with a letter | `demo` |
 | Region | AWS region | `eu-central-1` |
-| Tags | Extra tags added to all resources | none |
+
+**Advanced Settings** (tick "Show advanced settings" to change them):
+
+| Field | What it does | Default |
+|---|---|---|
 | VPC cidr | IP range of the new network | `10.0.0.0/16` |
-| Engine version | PostgreSQL major version | `17` |
-| Instance class | Size of the database server | `db.t4g.micro` |
-| Allocated storage | Storage in GiB | `20` |
+| Engine version | PostgreSQL major version. The list contains the versions in RDS standard support | `17` |
+| Instance class | Size of the database server. Burstable (t4g, t3), general purpose (m5, m6g, m7g) or memory optimized (r6g, r7g) | `db.t4g.micro` |
+| Allocated storage | Storage in GiB. Storage autoscaling can grow it up to twice this size | `20` |
 | Database name | Name of the first database | `app` |
 | Master username | Name of the admin user | `dbadmin` |
 | Multi az | Runs a standby in a second zone for high availability | off |
-| Backup retention days | How many days automated backups are kept | `7` |
+| Backup retention days | How many days automated backups are kept, 1 to 35 | `7` |
 | Deletion protection | Protects the database from deletion. Keep it off for demos | off |
 | Skip final snapshot | Skips the last backup when the database is deleted | on |
 | Log retention days | How long database logs and flow logs are kept | `90` |
+| Tags | Extra tags added to all resources | none |
+
+Not every instance class is available in every region. If the run fails for that reason, pick another class or region.
 
 ## After the run
 
@@ -61,5 +68,5 @@ The database and its storage are billed per hour, also when idle. Secrets Manage
 
 ## Limits
 
-- Single instance unless you switch on Multi az
+- Single instance unless you switch on Multi az in the advanced settings
 - No access from outside the VPC

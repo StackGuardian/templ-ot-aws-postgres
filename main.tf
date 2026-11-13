@@ -6,6 +6,6 @@ locals {
       ManagedBy   = "opentofu"
       Repository  = "tf-aws-postgres"
     },
-    var.tags,
+    var.advanced_settings.tags,
   )
 }

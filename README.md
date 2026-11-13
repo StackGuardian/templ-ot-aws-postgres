@@ -38,7 +38,7 @@ Accepted checkov findings (documented inline in the code):
 
 | Check | Reason |
 |---|---|
-| CKV_AWS_157 | Multi-AZ is configurable (`multi_az`), off by default for cost |
+| CKV_AWS_157 | Multi-AZ is configurable (`advanced_settings.multi_az`), off by default for cost |
 | CKV_AWS_293 | Deletion protection is configurable, off by default so the demo can be destroyed |
 | CKV_AWS_353 | Performance Insights is not available on the smallest instance classes |
 | CKV_AWS_338, CKV_AWS_158 | Log retention is configurable, AWS-managed encryption for logs |
@@ -70,7 +70,12 @@ aws secretsmanager get-secret-value --secret-id <master_user_secret_arn> --query
 |---|---|---|
 | `name_prefix` | Prefix for all resource names | `"demo"` |
 | `region` | AWS region | `"eu-central-1"` |
-| `tags` | Additional tags for all resources | `{}` |
+| `advanced_settings` | Object with the settings below, all optional | `{}` |
+
+`advanced_settings` attributes (shown as "Advanced Settings" in the StackGuardian form):
+
+| Name | Description | Default |
+|---|---|---|
 | `vpc_cidr` | CIDR block of the VPC | `"10.0.0.0/16"` |
 | `engine_version` | PostgreSQL major version | `"17"` |
 | `instance_class` | RDS instance class | `"db.t4g.micro"` |
@@ -82,6 +87,7 @@ aws secretsmanager get-secret-value --secret-id <master_user_secret_arn> --query
 | `deletion_protection` | Protect the instance from deletion | `false` |
 | `skip_final_snapshot` | Skip the final snapshot on destroy | `true` |
 | `log_retention_days` | Log retention in CloudWatch | `90` |
+| `tags` | Additional tags for all resources | `{}` |
 
 ## Outputs
 

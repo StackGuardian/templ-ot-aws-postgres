@@ -9,7 +9,7 @@ resource "aws_db_subnet_group" "this" {
 
 resource "aws_db_parameter_group" "this" {
   name   = local.identifier
-  family = "postgres${split(".", var.engine_version)[0]}"
+  family = "postgres${split(".", var.advanced_settings.engine_version)[0]}"
 
   parameter {
     name  = "rds.force_ssl"
@@ -33,12 +33,12 @@ resource "aws_db_parameter_group" "this" {
 
 # Created up front so the retention applies to the exported logs.
 resource "aws_cloudwatch_log_group" "db" {
-  #checkov:skip=CKV_AWS_338:Demo template, retention is configurable via log_retention_days
+  #checkov:skip=CKV_AWS_338:Demo template, retention is configurable via advanced_settings.log_retention_days
   #checkov:skip=CKV_AWS_158:Encrypted with AWS-managed keys, customer-managed KMS is out of scope for the demo
   for_each = toset(["postgresql", "upgrade"])
 
   name              = "/aws/rds/instance/${local.identifier}/${each.key}"
-  retention_in_days = var.log_retention_days
+  retention_in_days = var.advanced_settings.log_retention_days
 }
 
 resource "aws_iam_role" "monitoring" {
@@ -60,21 +60,21 @@ resource "aws_iam_role_policy_attachment" "monitoring" {
 }
 
 resource "aws_db_instance" "this" {
-  #checkov:skip=CKV_AWS_157:Multi-AZ is configurable via multi_az, off by default for cost
+  #checkov:skip=CKV_AWS_157:Multi-AZ is configurable via advanced_settings.multi_az, off by default for cost
   #checkov:skip=CKV_AWS_293:Deletion protection is configurable, off by default so the demo can be destroyed
   #checkov:skip=CKV_AWS_353:Performance Insights is not available on the smallest instance classes
   identifier     = local.identifier
   engine         = "postgres"
-  engine_version = var.engine_version
-  instance_class = var.instance_class
-  db_name        = var.database_name
-  username       = var.master_username
+  engine_version = var.advanced_settings.engine_version
+  instance_class = var.advanced_settings.instance_class
+  db_name        = var.advanced_settings.database_name
+  username       = var.advanced_settings.master_username
 
   # Password is generated and rotated by RDS in Secrets Manager. It never appears in state.
   manage_master_user_password = true
 
-  allocated_storage     = var.allocated_storage
-  max_allocated_storage = var.allocated_storage * 2
+  allocated_storage     = var.advanced_settings.allocated_storage
+  max_allocated_storage = var.advanced_settings.allocated_storage * 2
   storage_type          = "gp3"
   storage_encrypted     = true
 
@@ -82,7 +82,7 @@ resource "aws_db_instance" "this" {
   parameter_group_name   = aws_db_parameter_group.this.name
   vpc_security_group_ids = [aws_security_group.db.id]
   publicly_accessible    = false
-  multi_az               = var.multi_az
+  multi_az               = var.advanced_settings.multi_az
 
   iam_database_authentication_enabled = true
   auto_minor_version_upgrade          = true
@@ -90,11 +90,11 @@ resource "aws_db_instance" "this" {
   monitoring_interval                 = 60
   monitoring_role_arn                 = aws_iam_role.monitoring.arn
 
-  backup_retention_period   = var.backup_retention_days
+  backup_retention_period   = var.advanced_settings.backup_retention_days
   copy_tags_to_snapshot     = true
-  deletion_protection       = var.deletion_protection
-  skip_final_snapshot       = var.skip_final_snapshot
-  final_snapshot_identifier = var.skip_final_snapshot ? null : "${local.identifier}-final"
+  deletion_protection       = var.advanced_settings.deletion_protection
+  skip_final_snapshot       = var.advanced_settings.skip_final_snapshot
+  final_snapshot_identifier = var.advanced_settings.skip_final_snapshot ? null : "${local.identifier}-final"
   apply_immediately         = true
 
   depends_on = [aws_cloudwatch_log_group.db]

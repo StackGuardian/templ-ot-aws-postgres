@@ -3,116 +3,383 @@
   "required": [],
   "properties": {
     "name_prefix": {
-      "title": "Name prefix",
       "type": "string",
-      "description": "Prefix for all resource names",
       "default": "demo",
       "pattern": "^[a-z][a-z0-9-]{1,15}$"
     },
     "region": {
-      "title": "Region",
       "type": "string",
-      "description": "AWS region",
-      "default": "eu-central-1"
-    },
-    "tags": {
-      "title": "Tags",
-      "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      },
-      "description": "Additional tags for all resources",
-      "default": {}
-    },
-    "vpc_cidr": {
-      "title": "VPC cidr",
-      "type": "string",
-      "description": "CIDR block of the VPC",
-      "default": "10.0.0.0/16"
-    },
-    "engine_version": {
-      "title": "Engine version",
-      "type": "string",
-      "description": "PostgreSQL major version",
-      "default": "17"
-    },
-    "instance_class": {
-      "title": "Instance class",
-      "type": "string",
-      "description": "RDS instance class",
-      "default": "db.t4g.micro"
-    },
-    "allocated_storage": {
-      "title": "Allocated storage",
-      "type": "number",
-      "description": "Storage in GiB",
-      "default": 20
-    },
-    "database_name": {
-      "title": "Database name",
-      "type": "string",
-      "description": "Name of the initial database",
-      "default": "app"
-    },
-    "master_username": {
-      "title": "Master username",
-      "type": "string",
-      "description": "Master user name. The password is generated and stored in Secrets Manager.",
-      "default": "dbadmin"
-    },
-    "multi_az": {
-      "title": "Multi az",
-      "type": "boolean",
-      "description": "Run a standby in a second AZ",
-      "default": false
-    },
-    "backup_retention_days": {
-      "title": "Backup retention days",
-      "type": "number",
-      "description": "Days to keep automated backups",
-      "default": 7
-    },
-    "deletion_protection": {
-      "title": "Deletion protection",
-      "type": "boolean",
-      "description": "Protect the instance from deletion. Off by default so the demo can be destroyed.",
-      "default": false
-    },
-    "skip_final_snapshot": {
-      "title": "Skip final snapshot",
-      "type": "boolean",
-      "description": "Skip the final snapshot on destroy",
-      "default": true
-    },
-    "log_retention_days": {
-      "title": "Log retention days",
-      "type": "number",
-      "description": "Retention of database and flow logs in CloudWatch",
-      "default": 90,
+      "default": "eu-central-1",
       "enum": [
-        1,
-        3,
-        5,
-        7,
-        14,
-        30,
-        60,
-        90,
-        120,
-        150,
-        180,
-        365,
-        400,
-        545,
-        731,
-        1096,
-        1827,
-        2192,
-        2557,
-        2922,
-        3288,
-        3653
+        "af-south-1",
+        "ap-east-1",
+        "ap-south-2",
+        "ap-southeast-3",
+        "ap-southeast-5",
+        "ap-southeast-4",
+        "ap-south-1",
+        "ap-southeast-6",
+        "ap-northeast-3",
+        "ap-northeast-2",
+        "ap-southeast-1",
+        "ap-southeast-2",
+        "ap-east-2",
+        "ap-southeast-7",
+        "ap-northeast-1",
+        "ca-central-1",
+        "ca-west-1",
+        "eu-central-1",
+        "eu-west-1",
+        "eu-west-2",
+        "eu-south-1",
+        "eu-west-3",
+        "eu-south-2",
+        "eu-north-1",
+        "eu-central-2",
+        "il-central-1",
+        "mx-central-1",
+        "me-south-1",
+        "me-central-1",
+        "sa-east-1",
+        "us-east-1",
+        "us-east-2",
+        "us-west-1",
+        "us-west-2"
+      ],
+      "enumNames": [
+        "Africa (Cape Town) (af-south-1)",
+        "Asia Pacific (Hong Kong) (ap-east-1)",
+        "Asia Pacific (Hyderabad) (ap-south-2)",
+        "Asia Pacific (Jakarta) (ap-southeast-3)",
+        "Asia Pacific (Malaysia) (ap-southeast-5)",
+        "Asia Pacific (Melbourne) (ap-southeast-4)",
+        "Asia Pacific (Mumbai) (ap-south-1)",
+        "Asia Pacific (New Zealand) (ap-southeast-6)",
+        "Asia Pacific (Osaka) (ap-northeast-3)",
+        "Asia Pacific (Seoul) (ap-northeast-2)",
+        "Asia Pacific (Singapore) (ap-southeast-1)",
+        "Asia Pacific (Sydney) (ap-southeast-2)",
+        "Asia Pacific (Taipei) (ap-east-2)",
+        "Asia Pacific (Thailand) (ap-southeast-7)",
+        "Asia Pacific (Tokyo) (ap-northeast-1)",
+        "Canada (Central) (ca-central-1)",
+        "Canada West (Calgary) (ca-west-1)",
+        "Europe (Frankfurt) (eu-central-1)",
+        "Europe (Ireland) (eu-west-1)",
+        "Europe (London) (eu-west-2)",
+        "Europe (Milan) (eu-south-1)",
+        "Europe (Paris) (eu-west-3)",
+        "Europe (Spain) (eu-south-2)",
+        "Europe (Stockholm) (eu-north-1)",
+        "Europe (Zurich) (eu-central-2)",
+        "Israel (Tel Aviv) (il-central-1)",
+        "Mexico (Central) (mx-central-1)",
+        "Middle East (Bahrain) (me-south-1)",
+        "Middle East (UAE) (me-central-1)",
+        "South America (S\u00e3o Paulo) (sa-east-1)",
+        "US East (N. Virginia) (us-east-1)",
+        "US East (Ohio) (us-east-2)",
+        "US West (N. California) (us-west-1)",
+        "US West (Oregon) (us-west-2)"
       ]
+    },
+    "advanced_settings": {
+      "type": "object",
+      "properties": {
+        "show_advanced_settings": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "dependencies": {
+        "show_advanced_settings": {
+          "oneOf": [
+            {
+              "properties": {
+                "show_advanced_settings": {
+                  "enum": [
+                    false
+                  ]
+                }
+              },
+              "required": []
+            },
+            {
+              "properties": {
+                "show_advanced_settings": {
+                  "enum": [
+                    true
+                  ]
+                },
+                "vpc_cidr": {
+                  "title": "VPC cidr",
+                  "type": "string",
+                  "description": "CIDR block of the VPC",
+                  "default": "10.0.0.0/16"
+                },
+                "engine_version": {
+                  "title": "Engine version",
+                  "type": "string",
+                  "description": "PostgreSQL major version",
+                  "default": "17",
+                  "enum": [
+                    "18",
+                    "17",
+                    "16",
+                    "15",
+                    "14"
+                  ],
+                  "enumNames": [
+                    "PostgreSQL 18",
+                    "PostgreSQL 17",
+                    "PostgreSQL 16",
+                    "PostgreSQL 15",
+                    "PostgreSQL 14"
+                  ]
+                },
+                "instance_class": {
+                  "title": "Instance class",
+                  "type": "string",
+                  "description": "RDS instance class",
+                  "default": "db.t4g.micro",
+                  "enum": [
+                    "db.t4g.micro",
+                    "db.t4g.small",
+                    "db.t4g.medium",
+                    "db.t4g.large",
+                    "db.t4g.xlarge",
+                    "db.t3.small",
+                    "db.t3.medium",
+                    "db.m5.large",
+                    "db.m6g.large",
+                    "db.m6g.xlarge",
+                    "db.m7g.large",
+                    "db.m7g.xlarge",
+                    "db.m7g.2xlarge",
+                    "db.r6g.large",
+                    "db.r7g.large",
+                    "db.r7g.xlarge"
+                  ],
+                  "enumNames": [
+                    "db.t4g.micro (2 vCPU, 1 GiB)",
+                    "db.t4g.small (2 vCPU, 2 GiB)",
+                    "db.t4g.medium (2 vCPU, 4 GiB)",
+                    "db.t4g.large (2 vCPU, 8 GiB)",
+                    "db.t4g.xlarge (4 vCPU, 16 GiB)",
+                    "db.t3.small (2 vCPU, 2 GiB)",
+                    "db.t3.medium (2 vCPU, 4 GiB)",
+                    "db.m5.large (2 vCPU, 8 GiB)",
+                    "db.m6g.large (2 vCPU, 8 GiB)",
+                    "db.m6g.xlarge (4 vCPU, 16 GiB)",
+                    "db.m7g.large (2 vCPU, 8 GiB)",
+                    "db.m7g.xlarge (4 vCPU, 16 GiB)",
+                    "db.m7g.2xlarge (8 vCPU, 32 GiB)",
+                    "db.r6g.large (2 vCPU, 16 GiB)",
+                    "db.r7g.large (2 vCPU, 16 GiB)",
+                    "db.r7g.xlarge (4 vCPU, 32 GiB)"
+                  ]
+                },
+                "allocated_storage": {
+                  "title": "Allocated storage",
+                  "type": "number",
+                  "description": "Storage in GiB",
+                  "default": 20,
+                  "enum": [
+                    20,
+                    50,
+                    100,
+                    200,
+                    500,
+                    1000
+                  ],
+                  "enumNames": [
+                    "20 GiB",
+                    "50 GiB",
+                    "100 GiB",
+                    "200 GiB",
+                    "500 GiB",
+                    "1000 GiB"
+                  ]
+                },
+                "database_name": {
+                  "title": "Database name",
+                  "type": "string",
+                  "description": "Name of the initial database",
+                  "default": "app"
+                },
+                "master_username": {
+                  "title": "Master username",
+                  "type": "string",
+                  "description": "Master user name. The password is generated and stored in Secrets Manager.",
+                  "default": "dbadmin"
+                },
+                "multi_az": {
+                  "title": "Multi az",
+                  "type": "boolean",
+                  "description": "Run a standby in a second AZ",
+                  "default": false
+                },
+                "backup_retention_days": {
+                  "title": "Backup retention days",
+                  "type": "number",
+                  "description": "Days to keep automated backups",
+                  "default": 7,
+                  "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    21,
+                    22,
+                    23,
+                    24,
+                    25,
+                    26,
+                    27,
+                    28,
+                    29,
+                    30,
+                    31,
+                    32,
+                    33,
+                    34,
+                    35
+                  ],
+                  "enumNames": [
+                    "1 day",
+                    "2 days",
+                    "3 days",
+                    "4 days",
+                    "5 days",
+                    "6 days",
+                    "7 days",
+                    "8 days",
+                    "9 days",
+                    "10 days",
+                    "11 days",
+                    "12 days",
+                    "13 days",
+                    "14 days",
+                    "15 days",
+                    "16 days",
+                    "17 days",
+                    "18 days",
+                    "19 days",
+                    "20 days",
+                    "21 days",
+                    "22 days",
+                    "23 days",
+                    "24 days",
+                    "25 days",
+                    "26 days",
+                    "27 days",
+                    "28 days",
+                    "29 days",
+                    "30 days",
+                    "31 days",
+                    "32 days",
+                    "33 days",
+                    "34 days",
+                    "35 days"
+                  ]
+                },
+                "deletion_protection": {
+                  "title": "Deletion protection",
+                  "type": "boolean",
+                  "description": "Protect the instance from deletion. Off by default so the demo can be destroyed.",
+                  "default": false
+                },
+                "skip_final_snapshot": {
+                  "title": "Skip final snapshot",
+                  "type": "boolean",
+                  "description": "Skip the final snapshot on destroy",
+                  "default": true
+                },
+                "log_retention_days": {
+                  "title": "Log retention days",
+                  "type": "number",
+                  "description": "Retention of database and flow logs in CloudWatch",
+                  "default": 90,
+                  "enum": [
+                    1,
+                    3,
+                    5,
+                    7,
+                    14,
+                    30,
+                    60,
+                    90,
+                    120,
+                    150,
+                    180,
+                    365,
+                    400,
+                    545,
+                    731,
+                    1096,
+                    1827,
+                    2192,
+                    2557,
+                    2922,
+                    3288,
+                    3653
+                  ],
+                  "enumNames": [
+                    "1 day",
+                    "3 days",
+                    "5 days",
+                    "7 days",
+                    "14 days",
+                    "30 days",
+                    "60 days",
+                    "90 days",
+                    "120 days",
+                    "150 days",
+                    "180 days",
+                    "365 days",
+                    "400 days",
+                    "545 days",
+                    "731 days",
+                    "1096 days",
+                    "1827 days",
+                    "2192 days",
+                    "2557 days",
+                    "2922 days",
+                    "3288 days",
+                    "3653 days"
+                  ]
+                },
+                "tags": {
+                  "title": "Tags",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Additional tags for all resources",
+                  "default": {}
+                }
+              },
+              "required": []
+            }
+          ]
+        }
+      }
     }
   },
   "title": "AWS PostgreSQL Database (RDS)"

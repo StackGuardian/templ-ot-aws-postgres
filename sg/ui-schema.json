@@ -1,18 +1,73 @@
 {
+  "name_prefix": {
+    "ui:title": "Name Prefix",
+    "ui:description": "Prefix for all resource names"
+  },
+  "region": {
+    "ui:title": "Region",
+    "ui:description": "AWS region"
+  },
+  "advanced_settings": {
+    "show_advanced_settings": {
+      "ui:title": "Show advanced settings"
+    },
+    "vpc_cidr": {
+      "ui:title": "VPC CIDR"
+    },
+    "engine_version": {
+      "ui:title": "Engine Version"
+    },
+    "instance_class": {
+      "ui:title": "Instance Class"
+    },
+    "allocated_storage": {
+      "ui:title": "Allocated Storage in GiB"
+    },
+    "database_name": {
+      "ui:title": "Database Name"
+    },
+    "master_username": {
+      "ui:title": "Master Username"
+    },
+    "multi_az": {
+      "ui:title": "Multi AZ"
+    },
+    "backup_retention_days": {
+      "ui:title": "Backup Retention Days"
+    },
+    "deletion_protection": {
+      "ui:title": "Deletion Protection"
+    },
+    "skip_final_snapshot": {
+      "ui:title": "Skip Final Snapshot"
+    },
+    "log_retention_days": {
+      "ui:title": "Log Retention Days"
+    },
+    "tags": {
+      "ui:title": "Tags"
+    },
+    "ui:order": [
+      "show_advanced_settings",
+      "vpc_cidr",
+      "engine_version",
+      "instance_class",
+      "allocated_storage",
+      "database_name",
+      "master_username",
+      "multi_az",
+      "backup_retention_days",
+      "deletion_protection",
+      "skip_final_snapshot",
+      "log_retention_days",
+      "tags"
+    ],
+    "ui:title": "Advanced Settings",
+    "ui:description": "Optional settings, most deployments keep the defaults"
+  },
   "ui:order": [
     "name_prefix",
     "region",
-    "vpc_cidr",
-    "engine_version",
-    "instance_class",
-    "allocated_storage",
-    "database_name",
-    "master_username",
-    "multi_az",
-    "backup_retention_days",
-    "deletion_protection",
-    "skip_final_snapshot",
-    "log_retention_days",
-    "tags"
+    "advanced_settings"
   ]
 }

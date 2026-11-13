@@ -64,8 +64,10 @@ run "custom_tags_are_merged" {
   command = plan
 
   variables {
-    tags = {
-      Owner = "tester"
+    advanced_settings = {
+      tags = {
+        Owner = "tester"
+      }
     }
   }
 
@@ -85,7 +87,7 @@ run "database_is_not_public" {
   }
 
   assert {
-    condition     = alltrue([for r in [aws_vpc_security_group_ingress_rule.db] : r.cidr_ipv4 == var.vpc_cidr && r.from_port == 5432 && r.to_port == 5432])
+    condition     = alltrue([for r in [aws_vpc_security_group_ingress_rule.db] : r.cidr_ipv4 == var.advanced_settings.vpc_cidr && r.from_port == 5432 && r.to_port == 5432])
     error_message = "Port 5432 must be open only to the VPC."
   }
 }
@@ -145,10 +147,12 @@ run "backups_cannot_be_disabled" {
   command = plan
 
   variables {
-    backup_retention_days = 0
+    advanced_settings = {
+      backup_retention_days = 0
+    }
   }
 
-  expect_failures = [var.backup_retention_days]
+  expect_failures = [var.advanced_settings]
 }
 
 # U-10
