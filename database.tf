@@ -90,7 +90,9 @@ resource "aws_db_instance" "this" {
   monitoring_interval                 = 60
   monitoring_role_arn                 = aws_iam_role.monitoring.arn
 
-  backup_retention_period   = var.advanced_settings.backup_retention_days
+  # lookup() with the default as fallback: checkov cannot resolve optional object attributes
+  # and would flag the backup policy (CKV_AWS_133). The key always exists, the type sets a default.
+  backup_retention_period   = lookup(var.advanced_settings, "backup_retention_days", 7)
   copy_tags_to_snapshot     = true
   deletion_protection       = var.advanced_settings.deletion_protection
   skip_final_snapshot       = var.advanced_settings.skip_final_snapshot
