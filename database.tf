@@ -32,6 +32,7 @@ resource "aws_db_parameter_group" "this" {
 }
 
 # Created up front so the retention applies to the exported logs.
+#trivy:ignore:AVD-AWS-0017 Encrypted with AWS-managed keys, customer-managed KMS is out of scope for the demo
 resource "aws_cloudwatch_log_group" "db" {
   #checkov:skip=CKV_AWS_338:Demo template, retention is configurable via advanced_settings.log_retention_days
   #checkov:skip=CKV_AWS_158:Encrypted with AWS-managed keys, customer-managed KMS is out of scope for the demo
@@ -59,6 +60,8 @@ resource "aws_iam_role_policy_attachment" "monitoring" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
 
+#trivy:ignore:AVD-AWS-0133 Performance Insights is not available on the smallest instance classes
+#trivy:ignore:AVD-AWS-0177 Deletion protection is configurable, off by default so the demo can be destroyed
 resource "aws_db_instance" "this" {
   #checkov:skip=CKV_AWS_157:Multi-AZ is configurable via advanced_settings.multi_az, off by default for cost
   #checkov:skip=CKV_AWS_293:Deletion protection is configurable, off by default so the demo can be destroyed
