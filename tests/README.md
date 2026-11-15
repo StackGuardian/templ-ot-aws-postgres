@@ -32,6 +32,7 @@ tofu test -test-directory=tests/integration   # needs cloud credentials
 | U-09 | Unit | `advanced_settings.backup_retention_days = 0` is rejected | done |
 | U-10 | Unit | Database uses two private subnets in two AZs | done |
 | U-11 | Unit | Log exports, enhanced monitoring and VPC flow logs are enabled | done |
+| U-12 | Unit | `advanced_settings.backup_retention_days` above 35 is rejected | done |
 | I-01 | Integration | DB instance status is `available` | done |
 | I-02 | Integration | Endpoint resolves to private IPs inside the VPC | done |
 | I-03 | Integration | Master password secret exists in Secrets Manager (value is not read) | done |
