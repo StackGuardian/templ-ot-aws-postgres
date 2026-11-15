@@ -41,8 +41,8 @@ variable "advanced_settings" {
   }
 
   validation {
-    condition     = var.advanced_settings.backup_retention_days >= 1
-    error_message = "Automated backups must be enabled (at least 1 day)."
+    condition     = var.advanced_settings.backup_retention_days >= 1 && var.advanced_settings.backup_retention_days <= 35
+    error_message = "Automated backups must be kept between 1 and 35 days."
   }
 
   validation {

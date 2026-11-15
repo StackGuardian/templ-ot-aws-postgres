@@ -188,3 +188,16 @@ run "logging_and_monitoring_are_enabled" {
     error_message = "VPC flow logs must capture all traffic."
   }
 }
+
+# U-12
+run "backup_retention_above_35_days_is_rejected" {
+  command = plan
+
+  variables {
+    advanced_settings = {
+      backup_retention_days = 36
+    }
+  }
+
+  expect_failures = [var.advanced_settings]
+}
